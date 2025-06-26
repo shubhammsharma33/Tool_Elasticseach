@@ -1,2 +1,2 @@
 [nodes]
-52.23.226.85 ansible_user=ubuntu ansible_ssh_private_key_file=/home/shubhamm/mytool/new-key.pem es_version=7.17.0
+13.221.203.246 ansible_user=ubuntu ansible_ssh_private_key_file=/home/shubhamm/mytool/new-key.pem es_version=7.17.0
