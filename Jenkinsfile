@@ -15,7 +15,7 @@ pipeline {
 
         stage('Terraform Apply') {
             steps {
-                dir('terraform') {
+                dir('elasticsearch-terraform') {
                     sh 'pwd'
                     sh 'ls -la'
                     sh 'terraform init'
