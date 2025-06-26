@@ -33,12 +33,10 @@ pipeline {
 
         stage('Install Ansible Role') {
             steps {
-                dir('ansible') {
-                    sh 'ansible-galaxy install -r requirements.yml -p roles/ --force'
-                }
+                sh 'ansible-galaxy install -r requirements.yml -p roles/ --force'
             }
         }
-
+        
         stage('Run Ansible Playbook') {
             steps {
                 dir('ansible') {
