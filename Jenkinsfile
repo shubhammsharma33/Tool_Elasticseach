@@ -18,8 +18,10 @@ pipeline {
 
         stage('Terraform Apply') {
             steps {
-                sh 'terraform init'
-                sh 'terraform apply -auto-approve'
+                dir('elasticsearch-terraform') {
+                    sh 'terraform init'
+                    sh 'terraform apply -auto-approve'
+                }
             }
         }
 
