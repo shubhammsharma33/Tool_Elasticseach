@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        AWS_ACCESS_KEY_ID     = credentials('aws-access-key-id')
-        AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
+        TF_VAR_access_key = credentials('aws-access-key-id')
+        TF_VAR_secret_key = credentials('aws-secret-access-key')
     }
 
     stages {
@@ -15,8 +15,8 @@ pipeline {
 
         stage('Terraform Apply') {
             steps {
-                dir('mytool/elasticsearch-terraform') {
-                    sh 'echo Current Directory: $(pwd)'
+                dir('elasticsearch-terraform') {
+                    sh 'pwd'
                     sh 'ls -la'
                     sh 'terraform init'
                     sh 'terraform apply -auto-approve'
@@ -26,16 +26,14 @@ pipeline {
 
         stage('Wait for EC2 Ready') {
             steps {
-                echo "Waiting for EC2 instance to become ready..."
-                sh 'sleep 60'
+                echo 'Waiting for EC2 instances to be ready...'
+                sleep time: 60, unit: 'SECONDS'
             }
         }
 
         stage('Run Ansible Role') {
             steps {
-                dir('mytool') {
-                    sh 'ansible-playbook -i inventory install.yml'
-                }
+                sh 'ansible-playbook -i inventory install.yml'
             }
         }
     }
