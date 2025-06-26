@@ -18,10 +18,8 @@ pipeline {
 
         stage('Terraform Apply') {
             steps {
-                dir('terraform') {
-                    sh 'terraform init'
-                    sh 'terraform apply -auto-approve'
-                }
+                sh 'terraform init'
+                sh 'terraform apply -auto-approve'
             }
         }
 
@@ -42,7 +40,6 @@ pipeline {
             }
         }
     }
-
     post {
         always {
             echo 'Job Completed'
