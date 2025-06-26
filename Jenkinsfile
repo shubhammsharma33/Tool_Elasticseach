@@ -17,8 +17,8 @@ pipeline {
         }
 
         stage('Terraform Apply') {
-            dir('terraform') {
-                steps {
+            steps {
+                dir('terraform') {
                     sh 'terraform init'
                     sh 'terraform apply -auto-approve'
                 }
@@ -33,8 +33,8 @@ pipeline {
         }
 
         stage('Run Ansible Role') {
-            dir('ansible') {
-                steps {
+            steps {
+                dir('ansible') {
                     sshagent(credentials: ['new-key']) {
                         sh 'ansible-playbook -i inventory install.yml'
                     }
@@ -42,6 +42,7 @@ pipeline {
             }
         }
     }
+
     post {
         always {
             echo 'Job Completed'
