@@ -1,8 +1,10 @@
 pipeline {
     agent any
+
     environment {
         ANSIBLE_HOST_KEY_CHECKING = 'False'
     }
+
     stages {
         stage('Clean Workspace') {
             steps {
@@ -19,7 +21,13 @@ pipeline {
         stage('Terraform Apply') {
             steps {
                 dir('elasticsearch-terraform') {
-                    withCredentials([usernamePassword(credentialsId: 'aws-creds', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                    withCredentials([
+                        usernamePassword(
+                            credentialsId: 'aws-creds',
+                            usernameVariable: 'AWS_ACCESS_KEY_ID',
+                            passwordVariable: 'AWS_SECRET_ACCESS_KEY'
+                        )
+                    ]) {
                         sh 'terraform init'
                         sh 'terraform apply -auto-approve'
                     }
