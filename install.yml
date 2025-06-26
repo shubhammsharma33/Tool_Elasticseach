@@ -1,0 +1,4 @@
+- name: Single node Elasticsearch cluster
+  hosts: nodes
+  roles:
+    - role: elastic.elasticsearch

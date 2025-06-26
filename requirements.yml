@@ -1,0 +1,2 @@
+- name: elastic.elasticsearch
+  version: v7.17.0

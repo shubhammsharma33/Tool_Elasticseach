@@ -1,0 +1,11 @@
+es_instance_name: "Ansible-server"
+es_heap_size: "1g"
+
+es_config:
+  node.name: "node-1"
+  cluster.name: "my-es-cluster"
+  network.host: 0.0.0.0
+  http.port: 9200
+  discovery.type: single-node
+  bootstrap.memory_lock: true
+  xpack.security.enabled: false
