@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')
+        AWS_ACCESS_KEY_ID     = credentials('aws-access-key-id')
         AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
     }
 
@@ -16,7 +16,7 @@ pipeline {
         stage('Terraform Apply') {
             steps {
                 dir('mytool/elasticsearch-terraform') {
-                    sh 'echo "Current Directory: $(pwd)"'
+                    sh 'echo Current Directory: $(pwd)'
                     sh 'ls -la'
                     sh 'terraform init'
                     sh 'terraform apply -auto-approve'
@@ -26,17 +26,15 @@ pipeline {
 
         stage('Wait for EC2 Ready') {
             steps {
-                echo 'Sleeping to let EC2 initialize...'
-                sleep(time: 60, unit: 'SECONDS')
+                echo "Waiting for EC2 instance to become ready..."
+                sh 'sleep 60'
             }
         }
 
         stage('Run Ansible Role') {
             steps {
                 dir('mytool') {
-                    sshagent(['ubuntu']) {
-                        sh 'ansible-playbook -i inventory install.yml'
-                    }
+                    sh 'ansible-playbook -i inventory install.yml'
                 }
             }
         }
