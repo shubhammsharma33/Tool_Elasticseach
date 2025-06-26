@@ -39,7 +39,7 @@ pipeline {
         
         stage('Run Ansible Playbook') {
             steps {
-                dir('ansible') {
+                
                     sh 'ansible-playbook -i inventory install.yml'
                 }
             }
