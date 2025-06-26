@@ -20,8 +20,9 @@ pipeline {
             steps {
                 dir('elasticsearch-terraform') {
                     withCredentials([usernamePassword(credentialsId: 'aws-creds', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-                    sh 'terraform init'
-                    sh 'terraform apply -auto-approve'
+                        sh 'terraform init'
+                        sh 'terraform apply -auto-approve'
+                    }
                 }
             }
         }
@@ -43,6 +44,7 @@ pipeline {
             }
         }
     }
+
     post {
         always {
             echo 'Job Completed'
