@@ -15,9 +15,7 @@ pipeline {
 
         stage('Terraform Apply') {
             steps {
-                dir('elasticsearch-terraform') {
-                    sh 'pwd'
-                    sh 'ls -la'
+                dir('terraform') {
                     sh 'terraform init'
                     sh 'terraform apply -auto-approve'
                 }
@@ -31,16 +29,26 @@ pipeline {
             }
         }
 
-        stage('Run Ansible Role') {
+        stage('Install Ansible Role') {
             steps {
-                sh 'ansible-playbook -i inventory install.yml'
+                dir('ansible') {
+                    sh 'ansible-galaxy install -r requirements.yml -p roles/ --force'
+                }
+            }
+        }
+
+        stage('Run Ansible Playbook') {
+            steps {
+                dir('ansible') {
+                    sh 'ansible-playbook -i inventory install.yml'
+                }
             }
         }
     }
 
     post {
         always {
-            echo 'Job Completed'
+            echo ' Job Completed'
         }
     }
 }
