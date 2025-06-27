@@ -42,6 +42,7 @@ pipeline {
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: 'ubuntu-ssh-key', keyFileVariable: 'KEY')]) {
                     sh '''
+                        chmod 400 $KEY
                         export ANSIBLE_HOST_KEY_CHECKING=False
                         ansible-playbook -i inventory --private-key=$KEY install.yml
                     '''
