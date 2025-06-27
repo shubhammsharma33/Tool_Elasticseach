@@ -1,2 +1,2 @@
 [nodes]
-54.159.203.113 ansible_user=ubuntu es_version=7.17.0
+54.210.26.217 ansible_user=ubuntu es_version=7.17.0
