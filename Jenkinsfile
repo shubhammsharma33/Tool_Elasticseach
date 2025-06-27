@@ -4,6 +4,7 @@ pipeline {
     environment {
         AWS_ACCESS_KEY_ID     = credentials('aws-access-key-id')
         AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
+        ANSIBLE_HOST_KEY_CHECKING = 'False'    
     }
 
     stages {
@@ -39,13 +40,15 @@ pipeline {
         
         stage('Run Ansible Playbook') {
             steps {
-                
-                    sh 'ansible-playbook -i inventory install.yml'
+                withCredentials([sshUserPrivateKey(credentialsId: 'ubuntu-ssh-key', keyFileVariable: 'KEY')]) {
+                    sh '''
+                        export ANSIBLE_HOST_KEY_CHECKING=False 
+                        ansible-playbook -i inventory install.yml' --private-key=$KEY install.yml
+                    '''    
                 }
             }
         }
     
-
     post {
         always {
             echo ' Job Completed'
